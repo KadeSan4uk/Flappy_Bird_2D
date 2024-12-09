@@ -59,49 +59,31 @@ public class PipesController : MonoBehaviour
         if (checkChance < 20)
         {
             //Great Top
-            Transform pipe = Instantiate(TopPipePrefab);
-            pipe.position = SpawnTransforPoint.position;
-
-            var pipePosition = pipe.position;
-            pipePosition.y = Random.Range(GenerationMinHight, GenerationMaxHight);
-            pipe.position = pipePosition;
-            _pipes.Add(pipe);
+            InstantiatePipe(TopPipePrefab, Random.Range(GenerationMinHight, GenerationMaxHight));
         }
         else if (checkChance > 80)
         {
-            //Great Bottom
-            Transform pipe = Instantiate(BottomPipePrefab);
-            pipe.position = SpawnTransforPoint.position;
-
-            var pipePosition = pipe.position;
-            pipePosition.y = Random.Range(GenerationMinHight, GenerationMaxHight);
-            pipe.position = pipePosition;
-            _pipes.Add(pipe);
+            //Great Bottom          
+            InstantiatePipe(BottomPipePrefab, Random.Range(GenerationMinHight, GenerationMaxHight));
         }
         else
         {
-            Transform pipeTop = Instantiate(TopPipePrefab);
-            Transform pipeBottom = Instantiate(BottomPipePrefab);
-            pipeTop.position = SpawnTransforPoint.position;
-            pipeBottom.position = SpawnTransforPoint.position;
+            float randomY = Random.Range(GenerationMinHight, GenerationMaxHight);
 
-            var randomHigtPosition = Random.Range(GenerationMinHight, GenerationMaxHight);
-
-            var pipePosition = pipeTop.position;
-            pipePosition.y = randomHigtPosition;
-            pipeTop.position = pipePosition;
-
-            pipePosition = pipeBottom.position;
-            pipePosition.y = randomHigtPosition;
-            pipeBottom.position = pipePosition;
-
-            _pipes.Add(pipeTop);
-            _pipes.Add(pipeBottom);
+            InstantiatePipe(BottomPipePrefab, randomY);
+            InstantiatePipe(TopPipePrefab, randomY);            
         }
+    }
 
+    private void InstantiatePipe(Transform pipePrefab, float randomY)
+    {
+        Transform pipe = Instantiate(pipePrefab);
+        pipe.position = SpawnTransforPoint.position;
 
+        var pipePosition = pipe.position;
+        pipePosition.y = randomY;
+        pipe.position = pipePosition;
 
-
-
+        _pipes.Add(pipe);
     }
 }
