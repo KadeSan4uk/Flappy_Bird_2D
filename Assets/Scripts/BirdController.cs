@@ -12,6 +12,8 @@ public class BirdController : MonoBehaviour
     public PipesController pipesController;
     private int _points;
 
+    public GameOverPopup gameOverPopup;
+
     public float forsePower = 1.5f;
 
     private bool gameOver;
@@ -29,10 +31,15 @@ public class BirdController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rigibody.AddForce(Vector2.up * forsePower, ForceMode2D.Impulse);
+            ClickFly();
         }
 
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Lerp(-10, 50, rigibody.linearVelocityY * .2f));
+    }
+
+    public void ClickFly()
+    {
+        rigibody.AddForce(Vector2.up * forsePower, ForceMode2D.Impulse);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -57,7 +64,9 @@ public class BirdController : MonoBehaviour
 
     private IEnumerator UnfreezeGame()
     {
-        yield return new WaitForSecondsRealtime(1.5f);
+        yield return new WaitForSecondsRealtime(1f);
         Time.timeScale = 1;
+
+        gameOverPopup.ShowPopup(_points);
     }
 }
